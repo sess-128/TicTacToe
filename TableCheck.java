@@ -2,27 +2,33 @@ package studing;
 
 import java.util.ArrayList;
 
-public class GameCondition {
+public class TableCheck {
     private final int COLUMN_COUNT = 3;
     private final int ROW_COUNT = 3;
-    private ArrayList<Integer> sums = new ArrayList<>();
+    private final ArrayList<Integer> sums = new ArrayList<>();
 
-    public void check(Table table) {
+    public ArrayList<Integer> getSums() {
+        return sums;
+    }
+
+    public void checkSums(Table table) {
 
         char[][] field = table.getField();
         calculateCellsInColumns(field);
         calculateCellsInRows(field);
         calculateCellsInLeftDiagonal(field);
         calculateCellsInRightDiagonal(field);
+    }
 
-
-        if (sums.contains(3)) {
-            System.out.println("Выиграли крестики");
-        } else if (sums.contains(-3)) {
-            System.out.println("Выиграли нолики");
-        } else if (isTableFull(table)) {
-            System.out.println("Стол полон никто не выиграл");
+    private int calculateNumValue(char cellState) {
+        if (cellState == 'X') {
+            return 1;
+        } else if (cellState == 'O') {
+            return -1;
+        } else {
+            return 0;
         }
+
     }
 
     private void calculateCellsInRows(char[][] field) {
@@ -60,8 +66,7 @@ public class GameCondition {
         }
         sums.add(rightDiagonalSum);
     }
-
-    private boolean isTableFull(Table table) {
+    public boolean isTableFull(Table table) {
         char[][] field = table.getField();
 
         for (char[] row : field) {
@@ -72,17 +77,6 @@ public class GameCondition {
             }
         }
         return true;
-    }
-
-    private int calculateNumValue(char cellState) {
-        if (cellState == 'X') {
-            return 1;
-        } else if (cellState == 'O') {
-            return -1;
-        } else {
-            return 0;
-        }
-
     }
 
 }

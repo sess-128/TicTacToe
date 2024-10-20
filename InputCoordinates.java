@@ -19,7 +19,7 @@ public class InputCoordinates {
 
         ArrayList<Integer> coordinates = new ArrayList<>();
 
-        if (input.length() != 3 || input.isEmpty()) {
+        if (input.length() != 3) {
             System.out.println("Некорректный ввод: введите координаты через пробел");
         } else if (!matcher.find()) {
             System.out.println("Некорректный ввод: нужны числа от 1 до 3");

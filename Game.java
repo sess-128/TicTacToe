@@ -14,22 +14,25 @@ public class Game {
     }
 
     public void start() {
-        GameCondition condition = new GameCondition();
+        GameState state = new GameState();
         render.show();
-        int count = 0;
+        int currentPlayer = 0;
 
         while (true) {
             ArrayList<Integer> cells = InputCoordinates.input();
 
-            if (count % 2 == 0) {
+            if (currentPlayer % 2 == 0) {
                 table.makeMove(cells, CELL_CROSS);
             } else {
                 table.makeMove(cells, CELL_ZERO);
             }
-            condition.check(table);
+            state.check(table);
             render.show();
+            if (state.isDraw(table) || state.isWinZeros() || state.isWinCrosses()){
 
-            count++;
+            }
+
+            currentPlayer += 1 % 2;
         }
 
 
