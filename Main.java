@@ -1,6 +1,4 @@
-package studing;
-
-import java.util.ArrayList;
+package TicTacToe;
 
 public class Main {
     public static void main(String[] args) {

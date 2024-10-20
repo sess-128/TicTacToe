@@ -1,4 +1,4 @@
-package studing;
+package TicTacToe;
 
 public class TableRender {
     private final Table table;

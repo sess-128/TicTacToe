@@ -1,4 +1,4 @@
-package studing;
+package TicTacToe;
 
 import java.util.ArrayList;
 
@@ -12,8 +12,8 @@ public class Table {
         return field;
     }
 
-    public void makeMove(ArrayList<Integer> cells, char icon){
-        if (isAvailableToMove(cells)){
+    public void makeMove(ArrayList<Integer> cells, char icon) {
+        if (isAvailableToMove(cells)) {
             int row = cells.get(0) - OFFSET;
             int column = cells.get(1) - OFFSET;
             field[row][column] = icon;
@@ -21,7 +21,8 @@ public class Table {
             System.out.println("Клетка занята!");
         }
     }
-    private boolean isAvailableToMove(ArrayList<Integer> check){
+
+    private boolean isAvailableToMove(ArrayList<Integer> check) {
         int row = check.get(0) - OFFSET;
         int column = check.get(1) - OFFSET;
         return field[row][column] == 0;

@@ -1,4 +1,4 @@
-package studing;
+package TicTacToe;
 
 import java.util.ArrayList;
 
@@ -7,34 +7,56 @@ public class Game {
     private final TableRender render;
     private final char CELL_CROSS = 'X';
     private final char CELL_ZERO = 'O';
+    private int currentPlayer;
 
     public Game(Table table, TableRender render) {
         this.table = table;
         this.render = render;
+        this.currentPlayer = 0;
     }
 
     public void start() {
         GameState state = new GameState();
         render.show();
-        int currentPlayer = 0;
 
         while (true) {
-            ArrayList<Integer> cells = InputCoordinates.input();
-
-            if (currentPlayer % 2 == 0) {
-                table.makeMove(cells, CELL_CROSS);
-            } else {
-                table.makeMove(cells, CELL_ZERO);
+            Status status = state.getCurrentStatus(table);
+            if (isGameOver(status)) {
+                displayResult(status);
+                break;
             }
+            ArrayList<Integer> cells = InputCoordinates.input();
+            makeMove(cells);
             state.check(table);
             render.show();
-            if (state.isDraw(table) || state.isWinZeros() || state.isWinCrosses()){
-
-            }
-
-            currentPlayer += 1 % 2;
         }
 
+    }
 
+    private boolean isGameOver(Status status) {
+        return status != Status.CONTINUED;
+    }
+
+    private void displayResult(Status status) {
+        switch (status) {
+            case CROSSES_WIN: {
+                System.out.println("Крестики выиграли");
+                break;
+            }
+            case ZEROS_WIN: {
+                System.out.println("Нолики выиграли");
+                break;
+            }
+            case DRAW: {
+                System.out.println("Ничья");
+                break;
+            }
+        }
+    }
+
+    private void makeMove(ArrayList<Integer> cells) {
+        char symbol = (currentPlayer % 2 == 0) ? CELL_CROSS : CELL_ZERO;
+        table.makeMove(cells, symbol);
+        currentPlayer++;
     }
 }

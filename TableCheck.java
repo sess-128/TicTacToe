@@ -1,4 +1,4 @@
-package studing;
+package TicTacToe;
 
 import java.util.ArrayList;
 
@@ -66,6 +66,7 @@ public class TableCheck {
         }
         sums.add(rightDiagonalSum);
     }
+
     public boolean isTableFull(Table table) {
         char[][] field = table.getField();
 
