@@ -1,62 +1,48 @@
 package TicTacToe;
 
-import java.util.ArrayList;
-
 public class Game {
     private final Table table;
-    private final TableRender render;
-    private final char CELL_CROSS = 'X';
-    private final char CELL_ZERO = 'O';
-    private int currentPlayer;
+    private final TableRenderer tableRenderer;
 
-    public Game(Table table, TableRender render) {
+    public Game(Table table, TableRenderer tableRenderer) {
         this.table = table;
-        this.render = render;
-        this.currentPlayer = 0;
+        this.tableRenderer = tableRenderer;
     }
 
     public void start() {
-        GameState state = new GameState();
-        render.show();
+        Player playerX = new Player(Symbol.X);
+        Player playerO = new Player(Symbol.O);
+        Rules rules = new Rules(table);
 
+        Player currentPlayer = playerX;
         while (true) {
-            Status status = state.getCurrentStatus(table);
-            if (isGameOver(status)) {
-                displayResult(status);
-                break;
-            }
-            ArrayList<Integer> cells = InputCoordinates.input();
-            makeMove(cells);
-            state.check(table);
-            render.show();
-        }
+            tableRenderer.show(table);
+            System.out.println("Ходят " + currentPlayer.getSymbol());
 
-    }
+            Coordinates playerTurn = InputCoordinate.input();
+            if (table.isCoordinateClear(playerTurn)) {
+                table.InsertSymbol(playerTurn, currentPlayer.getSymbol());
+            } else {
+                System.out.println("\nКлетка занята");
+                continue;
+            }
 
-    private boolean isGameOver(Status status) {
-        return status != Status.CONTINUED;
-    }
-
-    private void displayResult(Status status) {
-        switch (status) {
-            case CROSSES_WIN: {
-                System.out.println("Крестики выиграли");
+            if (rules.isWin(currentPlayer.getSymbol())) {
+                printWin(currentPlayer.getSymbol());
+                break;
+            } else if (rules.isDraw()) {
+                printDraw();
                 break;
             }
-            case ZEROS_WIN: {
-                System.out.println("Нолики выиграли");
-                break;
-            }
-            case DRAW: {
-                System.out.println("Ничья");
-                break;
-            }
+            currentPlayer = currentPlayer == playerX ? playerO : playerX;
         }
     }
 
-    private void makeMove(ArrayList<Integer> cells) {
-        char symbol = (currentPlayer % 2 == 0) ? CELL_CROSS : CELL_ZERO;
-        table.makeMove(cells, symbol);
-        currentPlayer++;
+    private void printWin(Symbol symbol) {
+        System.out.println("Поздравляем игрок " + symbol + " с победой!");
+    }
+    private void printDraw() {
+        System.out.println("Увы - никто не победил");
     }
 }
+

@@ -1,33 +1,26 @@
 package TicTacToe;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Table {
-    private final int ROW_COUNT = 3;
-    private final int COLUMN_COUNT = 3;
-    private final char[][] field = new char[ROW_COUNT][COLUMN_COUNT];
-    private final int OFFSET = 1;
 
-    public char[][] getField() {
-        return field;
+    HashMap<Coordinates, Symbol> inputCoordinate = new HashMap<>();
+
+    public HashMap<Coordinates, Symbol> getInputCoordinate() {
+        return inputCoordinate;
     }
 
-    public void makeMove(ArrayList<Integer> cells, char icon) {
-        if (isAvailableToMove(cells)) {
-            int row = cells.get(0) - OFFSET;
-            int column = cells.get(1) - OFFSET;
-            field[row][column] = icon;
-        } else {
-            System.out.println("Клетка занята!");
-        }
+    public void InsertSymbol(Coordinates coordinates, Symbol symbol) {
+        inputCoordinate.put(coordinates, symbol);
     }
 
-    private boolean isAvailableToMove(ArrayList<Integer> check) {
-        int row = check.get(0) - OFFSET;
-        int column = check.get(1) - OFFSET;
-        return field[row][column] == 0;
+    public Symbol getSymbolFromCoordinate(Coordinates coordinates) {
+        return inputCoordinate.get(coordinates);
+    }
+
+    public boolean isCoordinateClear(Coordinates coordinates) {
+        return !inputCoordinate.containsKey(coordinates);
     }
 
 
 }
-
